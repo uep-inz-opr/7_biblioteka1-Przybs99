@@ -1,42 +1,74 @@
-class Lib:
-    def __init__(self):
-      self.egz = []
-      self.ludzie = []
+class Ksiazka:
+    def __init__(self, tytul, autor):
+        self.tytul = tytul
+        self.autor = autor
 
-    def books(self):
-        result = []
-        for book in self.egz:
-            t = (book.title, book.author, self.egz.count(book))
-            result.append(t)
-        result_set = set(result)     
-        result_set = sorted(result_set, key = lambda y: y[0])
-        return result_set
+class Egzemplarz:
+    def __init__(self, tytul, autor, rok_wydania):
+        self.tytul = tytul
+        self.autor = autor
+        self.rok_wydania = int(rok_wydania)
 
-class Book:
+def dodaj_egzemplarz_ksiazki(tytul, autor, rok_wydania):
+    egzemplarz = Egzemplarz(tytul, autor, rok_wydania)
+    egzemplarze.append(egzemplarz)
 
-    def __init__(self, title, author, year):
-        self.title = title
-        self.author = author
-        self.year= year
+egzemplarze = []
+ksiazki = []
+iteracja = 0
 
-    def __eq__(self, other):
-        if isinstance(other, Book):
-            return self.title == other.title
-        return False
+liczba_ksiazek = int(input())
+for ksiazka_input in range(liczba_ksiazek):
+    ksiazka_input = eval(input())
+    tytul = ksiazka_input[0]
+    autor = ksiazka_input[1]
+    rok_wydania = ksiazka_input[2]
+    dodaj_egzemplarz_ksiazki(tytul, autor, rok_wydania)
+    ksiazka = Ksiazka(tytul, autor)
+    if iteracja == 0:
+        ksiazki.append(ksiazka)
+        iteracja += 1
+    else:
+        for book in ksiazki:
+            if (ksiazka.tytul != book.tytul) and (ksiazka.autor != book.autor):
+                ksiazki.append(ksiazka)
+                break
+            else:
+                continue
 
 
+for i in range(len(ksiazki)-1):
+    licznik_ksiazki = 1
+    for j in range(i + 1, len(ksiazki)):
+        if ksiazki[i].autor == ksiazki[j].autor and ksiazki[i].tytul == ksiazki[j].tytul:
+            licznik_ksiazki += 1
 
-library = Lib()
+        else:
+            continue
+    ksiazki[i].licznik = licznik_ksiazki
 
-new_egz =int(input())
-Book = []
-for n in range(new_egz):
-  text = eval(input())
-  title = text[0]
-  author = text[1]
-  year = text[2]
-  egz = Book(title, author, year)
-  library.egz.append(egz)
+ksiazki[len(ksiazki)-1].licznik = 1
 
-for book in library.books():
-    print(book)
+
+ksiazki_bez_kopii = [None] * len(ksiazki)
+for i in range(len(ksiazki)):
+    ksiazki_bez_kopii[i] = ksiazki[i]
+
+
+for i in range(len(ksiazki)-1):
+    czy_jest_inna = False
+    for j in range(i+1, len(ksiazki)):
+        if ksiazki[i].autor == ksiazki[j].autor and ksiazki[i].tytul == ksiazki[j].tytul:
+            if ksiazki[i].licznik > ksiazki[j].licznik:
+                ksiazki_bez_kopii.remove(ksiazki[j])
+
+tuple = []
+
+for ksiazka in ksiazki_bez_kopii:
+    tupla = (ksiazka.tytul, ksiazka.autor, ksiazka.licznik)
+    tuple.append(tupla)
+
+tuple = sorted(tuple, key=lambda x: x[0])
+
+for tupla in tuple:
+    print(tupla)
