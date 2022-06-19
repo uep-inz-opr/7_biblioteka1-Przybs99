@@ -10,7 +10,7 @@ class Lib:
             result.append(t)
         result_set = set(result)     
         result_set = sorted(result_set, key = lambda y: y[0])
-        return result
+        return result_set
 
 class Book:
 
